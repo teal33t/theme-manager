@@ -16,14 +16,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(),
         new GetCollection(),
-        new Post(),
-        new Put(),
-        new Delete(),
+        new Post(processor: ThemeProcessor::class),
+        new Put(processor: ThemeProcessor::class),
+        new Delete(processor: ThemeDeleteProcessor::class),
     ],
     normalizationContext: ['groups' => ['theme:read']],
     denormalizationContext: ['groups' => ['theme:write']]
 )]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: ThemeRepository::class)]
 class Theme
 {
     #[ORM\Id]
