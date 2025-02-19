@@ -16,6 +16,7 @@ use App\State\ThemeProcessor;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use App\Controller\DefaultThemeController;
 
 #[ApiResource(
     operations: [
@@ -24,6 +25,11 @@ use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
         new Post(processor: ThemeProcessor::class),
         new Put(processor: ThemeProcessor::class),
         new Delete(processor: ThemeDeleteProcessor::class),
+        new Get(
+            uriTemplate: '/themes/default',
+            controller: DefaultThemeController::class,
+            name: 'get_default_theme'
+        ),
     ],
     normalizationContext: ['groups' => ['theme:read']],
     denormalizationContext: ['groups' => ['theme:write']]
