@@ -13,6 +13,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ThemeRepository;
 use App\State\ThemeProcessor;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 #[ApiResource(
     operations: [
@@ -25,6 +28,8 @@ use App\State\ThemeProcessor;
     normalizationContext: ['groups' => ['theme:read']],
     denormalizationContext: ['groups' => ['theme:write']]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
+#[ApiFilter(BooleanFilter::class, properties: ['isDefault'])]
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
 class Theme
 {
