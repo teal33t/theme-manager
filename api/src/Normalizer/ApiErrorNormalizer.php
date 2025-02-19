@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ApiErrorNormalizer implements NormalizerInterface
 {
-    public function normalize($exception, string $format = null, array $context = []): array
+    public function normalize($exception, ?string $format = null, array $context = []): array
     {
         return [
             'type' => 'Error',
@@ -17,7 +17,7 @@ class ApiErrorNormalizer implements NormalizerInterface
         ];
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof FlattenException;
     }
@@ -33,5 +33,12 @@ class ApiErrorNormalizer implements NormalizerInterface
             422 => 'Unprocessable Content',
             default => 'Internal Server Error',
         };
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            FlattenException::class => true,
+        ];
     }
 }
