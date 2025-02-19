@@ -22,6 +22,23 @@ class ThemeRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findByFilters(?bool $isDefault = null, ?string $searchTerm = null): array
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        if ($isDefault !== null) {
+            $qb->andWhere('t.isDefault = :isDefault')
+               ->setParameter('isDefault', $isDefault);
+        }
+
+        if ($searchTerm) {
+            $qb->andWhere('t.name LIKE :searchTerm')
+               ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function unsetAllDefault(): void
     {
         $this->createQueryBuilder('t')
