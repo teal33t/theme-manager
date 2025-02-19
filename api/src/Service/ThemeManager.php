@@ -15,6 +15,11 @@ class ThemeManager
     ) {
     }
 
+    public function searchThemes(?bool $isDefault = null, ?string $searchTerm = null): array
+    {
+        return $this->themeRepository->findByFilters($isDefault, $searchTerm);
+    }
+
     public function handleThemeCreation(Theme $theme): Theme
     {
         $defaultTheme = $this->themeRepository->findDefault();
